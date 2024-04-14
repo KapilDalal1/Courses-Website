@@ -4,11 +4,11 @@ import Cards from './components/Cards';
 import Filter from './components/Filter';
 import { apiUrl, filterData } from './Data';
 import Spinner from './components/Spinner';
-import { ToastContainer, toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import {toast} from 'react-toastify'
 function App() {
   const [courses, setCourses] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [category, setCategory] = useState(filterData[0].title)
 
   async function fetchData() {
 
@@ -30,12 +30,15 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <Filter filterData={filterData} />
       <div>
-        {loading ? <Spinner/> : <Cards courses={courses} />} 
+        <Navbar />
       </div>
-      <ToastContainer />
+      <div className='bg-slate-900'>
+        <Filter filterData={filterData} category = {category} setCategory = {setCategory}/>
+        <div className='w-11/12 max-w-[1200px] mx-auto flex justify-center items-center min-h-[50vh]'>
+          {loading ? <Spinner/> : <Cards courses={courses} category = {category} />} 
+        </div>
+      </div>
     </div>
   );
 }
